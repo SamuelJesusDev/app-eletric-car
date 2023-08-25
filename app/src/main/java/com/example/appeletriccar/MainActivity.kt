@@ -1,46 +1,47 @@
 package com.example.appeletriccar
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.appeletriccar.adapter.CarAdapter
 
 class MainActivity : AppCompatActivity() {
-    lateinit var preco : EditText
-    lateinit var km_percorrido : EditText
-    lateinit var resultado : TextView
-    lateinit var btnCalcular : Button
+
+    lateinit var btnNext : Button
+    lateinit var listaCarros : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupView()
         setupListeners()
+        setupList()
     }
 
 
     fun setupView(){
-        preco = findViewById(R.id.et_preco_kwh)
-        km_percorrido = findViewById(R.id.et_km_percorrido)
-        btnCalcular = findViewById(R.id.btn_calcular)
-        resultado = findViewById(R.id.tv_resultado)
+        btnNext = findViewById(R.id.btn_next)
+        listaCarros = findViewById(R.id.rv_lista_carros)
+    }
+    fun setupList(){
+        var dados = arrayOf(
+            "Cupcake", "Donut", "Froyo", "Gingerbread"
+        )
+        val adapter = CarAdapter(dados)
+        listaCarros.adapter = adapter
+
     }
 
     fun setupListeners(){
-        btnCalcular.setOnClickListener(){
-            calcAutonomia()
+        btnNext.setOnClickListener(){
+            startActivity(Intent(this, CalcularAutonomiaActivity::class.java))
         }
     }
-    fun calcAutonomia(){
-            val preco = preco.text.toString().toFloat()
-            val km = km_percorrido.text.toString().toFloat()
-
-            val result = preco / km
-            resultado.text = result.toString()
-    }
-//    fun calcAutonomia(){
-//        val textoDigitado = preco.text
-//        val textoDigitado = km_percorrido.text
-//    }
 }
